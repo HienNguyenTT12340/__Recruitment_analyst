@@ -1,4 +1,4 @@
-# HR_Dashboard
+# Recruitment analyst
 Theo dõi chỉ tiêu và tình hình tuyển dụng nhân sự
 
 **1. Tổng quan**
