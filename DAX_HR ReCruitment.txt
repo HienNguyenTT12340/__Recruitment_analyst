@@ -111,4 +111,32 @@ RETURN
 )))
 ,CROSSFILTER('HR_Recruitment tracker'[Created chuẩn],Table_date[Date],None)
 )
+5. Phân quyền RLS
+VAR _user =
+    LEFT(
+        LOWER(USERPRINCIPALNAME()),
+        SEARCH("@", USERPRINCIPALNAME()) - 1
+    )
 
+VAR _isAdmin =
+    CALCULATE(
+        COUNTROWS('Phân quyền'),
+        FILTER(
+            'Phân quyền',
+            LOWER('Phân quyền'[UserEmail]) = _user
+                && 'Phân quyền'[Role] = "Admin"
+        )
+    ) > 0
+
+RETURN
+    _isAdmin
+    ||
+    'DanhSachViTri'[Phòng ban/bộ phận]
+        IN
+    CALCULATETABLE(
+        VALUES('Phân quyền'[Department]),
+        FILTER(
+            'Phân quyền',
+            LOWER('Phân quyền'[UserEmail]) = _user
+        )
+    )
